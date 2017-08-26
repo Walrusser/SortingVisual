@@ -5,19 +5,14 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-public class Screen extends JPanel {
+class Screen extends JPanel {
 
-    public ArrayList<Integer> lineArrayList = new ArrayList<>();
+    public final ArrayList<Integer> lineArrayList = new ArrayList<>();
 
     public int greenIndex;
     public int pointerRIndex;
     public int pointerLIndex;
 
-    public float yMultiplier = 3.5f;
-
-    private float lineWidth;
-    private float lineSpace = 2f;
-    private float x;
 
 
     public void setArrayList(ArrayList<Integer> arrayList){
@@ -28,9 +23,10 @@ public class Screen extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
-        x = 20;
-        lineWidth = 4f;
-
+        float lineWidth = this.getWidth()/(lineArrayList.size());
+        float lineSpace = (this.getWidth() - (lineWidth*lineArrayList.size())) / lineArrayList.size();
+        float x = lineWidth/2 + (lineSpace/2);
+        float yMultiplier = (this.getHeight()/1.5f)/lineArrayList.size();
 
         Graphics2D g2 = (Graphics2D) g;
 
@@ -53,7 +49,7 @@ public class Screen extends JPanel {
             }
 
             g2.draw(new Line2D.Float(x,230, x, 200 - lineArrayList.get(i)*yMultiplier));
-            x = x + (int)lineWidth + lineSpace;
+            x = x + (int) lineWidth + lineSpace;
         }
     }
 }

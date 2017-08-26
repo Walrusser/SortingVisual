@@ -5,18 +5,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class Frame_Main extends JFrame {
+class Frame_Main extends JFrame {
 
-    private Screen _screen = new Screen();
+    private final Screen _screen = new Screen();
 
-    private int maxArraySize = 50;
-    private int fps = 60;
+    private final int maxArraySize = 50;
+    private final int fps = 60;
 
 
     //TODO Make sure static is really needed
-    public static ArrayList<Integer> array = new ArrayList<>();
+    private static final ArrayList<Integer> array = new ArrayList<>();
 
-    public Frame_Main(){
+    private Frame_Main(){
         this.setSize(350,270);
         this.setVisible(true);
         this.setTitle("Visual Array Sorting");
@@ -54,7 +54,7 @@ public class Frame_Main extends JFrame {
 
     }
 
-    public void refreshVisuals(){
+    private void refreshVisuals(){
 
         _screen.lineArrayList.clear();
         _screen.setArrayList(array);
@@ -62,7 +62,7 @@ public class Frame_Main extends JFrame {
 
     }
 
-    public void randomizeArray(ArrayList<Integer> arrayList, int maxSize){
+    private void randomizeArray(ArrayList<Integer> arrayList, int maxSize){
 
         arrayList.clear();
 
@@ -79,7 +79,7 @@ public class Frame_Main extends JFrame {
         }
     }
 
-    public void _quickSort(ArrayList<Integer> arrayList, int left, int right){
+    private void _quickSort(ArrayList<Integer> arrayList, int left, int right){
 
         if(right - left <= 0){
             return;
@@ -95,7 +95,7 @@ public class Frame_Main extends JFrame {
 
     }
 
-    public int partition(ArrayList<Integer> arrayList, int left, int right, int pivot){
+    private int partition(ArrayList<Integer> arrayList, int left, int right, int pivot){
 
         int leftPointer  = left - 1;
         int rightPointer = right;
@@ -112,7 +112,8 @@ public class Frame_Main extends JFrame {
 
                 _screen.pointerLIndex = leftPointer;
                 refreshVisuals();
-            };
+            }
+
             while(rightPointer > 0 && arrayList.get(--rightPointer) > pivot){
 
                 try {
@@ -122,7 +123,7 @@ public class Frame_Main extends JFrame {
                 }
                 _screen.pointerRIndex = rightPointer;
                 refreshVisuals();
-            };
+            }
 
             if(leftPointer >= rightPointer){
                 break;
