@@ -13,8 +13,6 @@ class Screen extends JPanel {
     public int pointerRIndex;
     public int pointerLIndex;
 
-
-
     public void setArrayList(ArrayList<Integer> arrayList){
         lineArrayList.addAll(arrayList);
     }
@@ -40,15 +38,15 @@ class Screen extends JPanel {
 
             if(i == greenIndex - 1){
                 g2.setColor(Color.GREEN);
-                g2.draw(new Line2D.Float(x,230, x, 200 - lineArrayList.get(i)*yMultiplier));
+                g2.draw(new Line2D.Float(x, this.getHeight(), x, this.getHeight() - lineArrayList.get(i)*yMultiplier));
             }
 
             if(i == pointerRIndex || i == pointerLIndex){
                 g2.setColor(Color.red);
-                g2.draw(new Line2D.Float(x,230, x, 200 - lineArrayList.get(i)*yMultiplier));
+                g2.draw(new Line2D.Float(x,this.getHeight(), x, this.getHeight() - lineArrayList.get(i)*yMultiplier));
             }
 
-            g2.draw(new Line2D.Float(x,230, x, 200 - lineArrayList.get(i)*yMultiplier));
+            g2.draw(new Line2D.Float(x,this.getHeight(), x, this.getHeight() - lineArrayList.get(i)*yMultiplier));
             x = x + (int) lineWidth + lineSpace;
         }
     }

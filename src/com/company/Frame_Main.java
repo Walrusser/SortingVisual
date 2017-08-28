@@ -9,15 +9,15 @@ class Frame_Main extends JFrame {
 
     private final Screen _screen = new Screen();
 
-    private final int maxArraySize = 50;
-    private final int fps = 60;
+    private final int maxArraySize = 1024;
+    private final int tickrate = 400;
 
 
     //TODO Make sure static is really needed
     private static final ArrayList<Integer> array = new ArrayList<>();
 
     private Frame_Main(){
-        this.setSize(350,270);
+        this.setSize(450,270);
         this.setVisible(true);
         this.setTitle("Visual Array Sorting");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -40,7 +40,7 @@ class Frame_Main extends JFrame {
                     e.printStackTrace();
                 }
 
-            m._quickSort(array, 0 , array.size()-1);
+            m._quickSort(array, 0, array.size() - 1);
             m.refreshVisuals();
 
                 try {
@@ -77,6 +77,10 @@ class Frame_Main extends JFrame {
         for(int i = 0; i < maxSize; i++){
             Collections.swap(arrayList, rnd.nextInt(arrayList.size()-1), rnd.nextInt(arrayList.size()-1));
         }
+
+        for(int i = 0; i < maxSize; i++){
+            Collections.swap(arrayList, rnd.nextInt(arrayList.size()-1), rnd.nextInt(arrayList.size()-1));
+        }
     }
 
     private void _quickSort(ArrayList<Integer> arrayList, int left, int right){
@@ -105,7 +109,7 @@ class Frame_Main extends JFrame {
             while(arrayList.get(++leftPointer) < pivot){
 
                 try {
-                    Thread.sleep(1000/fps);
+                    Thread.sleep(1000/ tickrate);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -117,7 +121,7 @@ class Frame_Main extends JFrame {
             while(rightPointer > 0 && arrayList.get(--rightPointer) > pivot){
 
                 try {
-                    Thread.sleep(1000/fps);
+                    Thread.sleep(1000/ tickrate);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -157,7 +161,7 @@ class Frame_Main extends JFrame {
             for(int j = 1; j < n; j++){
 
                 try {
-                    Thread.sleep(1000/fps);
+                    Thread.sleep(1000/ tickrate);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -191,7 +195,7 @@ class Frame_Main extends JFrame {
             while (j > 0 && arrayList.get(j-1) > arrayList.get(j)){
 
                 try {
-                    Thread.sleep(1000/fps);
+                    Thread.sleep(1000/ tickrate);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
