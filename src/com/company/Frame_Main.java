@@ -7,87 +7,95 @@ import java.util.Random;
 
 class Frame_Main extends JFrame {
 
-    private final Screen _screen = new Screen();
+    private final Screen_JPanel Screen = new Screen_JPanel();
 
-    private final int maxArraySize = 1024;
-    private final int tickrate = 400;
+    private final String APPLICATION_NAME = "Visual Array Sorting";
+    private final int TICKRATE = 400;
 
+    private static final Object[] DIALOG_STRINGS = {"Quicksort", "Bubblesort", "Insertionsort"};
 
-    //TODO Make sure static is really needed
-    private static final ArrayList<Integer> array = new ArrayList<>();
+    private static final ArrayList<Integer> ARRAY_LIST = new ArrayList<>();
 
-    private Frame_Main(){
-        this.setSize(450,270);
+    private Frame_Main() {
+        this.setSize(450, 270);
         this.setVisible(true);
-        this.setTitle("Visual Array Sorting");
+        this.setTitle(APPLICATION_NAME);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        this.add(_screen);
+        this.add(Screen);
 
     }
 
-    public static void main(String[] args){
-            Frame_Main m = new Frame_Main();
+    public static void main(String[] args) {
+        Frame_Main m = new Frame_Main();
 
-            while(true){
+        while (true) {
+            //Create a dialog
+            String userSortingMethod = (String) JOptionPane.showInputDialog(null, "Please select sorting method: ",
+                    m.APPLICATION_NAME, JOptionPane.QUESTION_MESSAGE, null, DIALOG_STRINGS, 1);
 
-            m.randomizeArray(array, m.maxArraySize);
-            m.refreshVisuals();
+            int userArraySize = Integer.parseInt(JOptionPane.showInputDialog(null, "Please specify the ARRAY_LIST size: ",
+                    m.APPLICATION_NAME, JOptionPane.PLAIN_MESSAGE));
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            m.randomizeArray(ARRAY_LIST, userArraySize);
 
-            m._quickSort(array, 0, array.size() - 1);
-            m.refreshVisuals();
+            switch (userSortingMethod) {
+                case "Quicksort":
+                    m._quickSort(ARRAY_LIST, 0, ARRAY_LIST.size() - 1);
+                    break;
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                case "Bubblesort":
+                    m._bubbleSort(ARRAY_LIST);
+                    break;
 
+                case "Insertionsort":
+                    m._insertionSort(ARRAY_LIST);
+                    break;
 
             }
 
-    }
+            JOptionPane.showConfirmDialog(null, "Sorting Complete!", m.APPLICATION_NAME, JOptionPane.PLAIN_MESSAGE);
 
-    private void refreshVisuals(){
 
-        _screen.lineArrayList.clear();
-        _screen.setArrayList(array);
-        _screen.repaint();
+        }
 
     }
 
-    private void randomizeArray(ArrayList<Integer> arrayList, int maxSize){
+    private void refreshVisuals() {
+
+        Screen.lineArrayList.clear();
+        Screen.setArrayList(ARRAY_LIST);
+        Screen.repaint();
+
+    }
+
+    private void randomizeArray(ArrayList<Integer> arrayList, int maxSize) {
 
         arrayList.clear();
 
         Random rnd = new Random();
 
-        //Create a linear array
-        for(int i = 1; i < maxSize; i++){
+        //Create a linear ARRAY_LIST
+        for (int i = 1; i < maxSize; i++) {
             arrayList.add(i);
         }
 
-        //Randomize the array by switching indexes
-        for(int i = 0; i < maxSize; i++){
-            Collections.swap(arrayList, rnd.nextInt(arrayList.size()-1), rnd.nextInt(arrayList.size()-1));
+        //Randomize the ARRAY_LIST by switching indexes
+        for (int i = 0; i < maxSize; i++) {
+            Collections.swap(arrayList, rnd.nextInt(arrayList.size() - 1), rnd.nextInt(arrayList.size() - 1));
         }
 
-        for(int i = 0; i < maxSize; i++){
-            Collections.swap(arrayList, rnd.nextInt(arrayList.size()-1), rnd.nextInt(arrayList.size()-1));
+        for (int i = 0; i < maxSize; i++) {
+            Collections.swap(arrayList, rnd.nextInt(arrayList.size() - 1), rnd.nextInt(arrayList.size() - 1));
         }
     }
 
-    private void _quickSort(ArrayList<Integer> arrayList, int left, int right){
+    private void _quickSort(ArrayList<Integer> arrayList, int left, int right) {
 
-        if(right - left <= 0){
+
+        if (right - left <= 0) {
             return;
-        } else{
+        } else {
 
             int pivot = arrayList.get(right);
 
@@ -99,84 +107,84 @@ class Frame_Main extends JFrame {
 
     }
 
-    private int partition(ArrayList<Integer> arrayList, int left, int right, int pivot){
+    private int partition(ArrayList<Integer> arrayList, int left, int right, int pivot) {
 
-        int leftPointer  = left - 1;
+        int leftPointer = left - 1;
         int rightPointer = right;
 
-        while(true){
+        while (true) {
 
-            while(arrayList.get(++leftPointer) < pivot){
+            while (arrayList.get(++leftPointer) < pivot) {
 
                 try {
-                    Thread.sleep(1000/ tickrate);
+                    Thread.sleep(1000 / TICKRATE);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                _screen.pointerLIndex = leftPointer;
+                Screen.pointerLIndex = leftPointer;
                 refreshVisuals();
             }
 
-            while(rightPointer > 0 && arrayList.get(--rightPointer) > pivot){
+            while (rightPointer > 0 && arrayList.get(--rightPointer) > pivot) {
 
                 try {
-                    Thread.sleep(1000/ tickrate);
+                    Thread.sleep(1000 / TICKRATE);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                _screen.pointerRIndex = rightPointer;
+                Screen.pointerRIndex = rightPointer;
                 refreshVisuals();
             }
 
-            if(leftPointer >= rightPointer){
+            if (leftPointer >= rightPointer) {
                 break;
-            } else{
+            } else {
 
-                _screen.greenIndex = leftPointer;
+                Screen.greenIndex = leftPointer;
                 refreshVisuals();
 
                 Collections.swap(arrayList, leftPointer, rightPointer);
 
-                _screen.greenIndex = rightPointer;
+                Screen.greenIndex = rightPointer;
                 refreshVisuals();
             }
         }
 
-        _screen.greenIndex = leftPointer;
+        Screen.greenIndex = leftPointer;
         refreshVisuals();
 
         Collections.swap(arrayList, leftPointer, right);
 
-        _screen.greenIndex = rightPointer;
+        Screen.greenIndex = rightPointer;
         refreshVisuals();
         return leftPointer;
     }
 
-    public void _bubbleSort(ArrayList<Integer> arrayList){
+    public void _bubbleSort(ArrayList<Integer> arrayList) {
         int n = arrayList.size();
         int x = 0;
 
-        for(int i = 0; i < n; i++){
-            for(int j = 1; j < n; j++){
+        for (int i = 0; i < n; i++) {
+            for (int j = 1; j < n; j++) {
 
                 try {
-                    Thread.sleep(1000/ tickrate);
+                    Thread.sleep(1000 / TICKRATE);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                if(arrayList.get(j-1) > arrayList.get(j)){
-                    x = arrayList.get(j-1);
-                    arrayList.set(j-1, arrayList.get(j));
+                if (arrayList.get(j - 1) > arrayList.get(j)) {
+                    x = arrayList.get(j - 1);
+                    arrayList.set(j - 1, arrayList.get(j));
                     arrayList.set(j, x);
 
-                    _screen.greenIndex = j;
-                    _screen.pointerRIndex = i;
+                    Screen.greenIndex = j;
+                    Screen.pointerRIndex = i;
                     refreshVisuals();
                 }
 
-                _screen.pointerRIndex = i;
+                Screen.pointerRIndex = i;
                 refreshVisuals();
             }
         }
@@ -184,24 +192,24 @@ class Frame_Main extends JFrame {
     }
 
 
-    public void _insertionSort(ArrayList<Integer> arrayList){
+    public void _insertionSort(ArrayList<Integer> arrayList) {
 
-        _screen.pointerLIndex = 0;
-        _screen.pointerRIndex = 0;
+        Screen.pointerLIndex = 0;
+        Screen.pointerRIndex = 0;
 
         int i = 0;
-        while (i < arrayList.size()){
+        while (i < arrayList.size()) {
             int j = i;
-            while (j > 0 && arrayList.get(j-1) > arrayList.get(j)){
+            while (j > 0 && arrayList.get(j - 1) > arrayList.get(j)) {
 
                 try {
-                    Thread.sleep(1000/ tickrate);
+                    Thread.sleep(1000 / TICKRATE);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                _screen.greenIndex = j;
-                Collections.swap(arrayList, j, j-1);
+                Screen.greenIndex = j;
+                Collections.swap(arrayList, j, j - 1);
 
                 refreshVisuals();
                 j--;

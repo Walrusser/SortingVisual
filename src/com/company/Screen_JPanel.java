@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-class Screen extends JPanel {
+class Screen_JPanel extends JPanel {
 
     public final ArrayList<Integer> lineArrayList = new ArrayList<>();
 
@@ -31,6 +31,7 @@ class Screen extends JPanel {
         g2.setColor(Color.DARK_GRAY);
         g2.setStroke(new BasicStroke(lineWidth));
 
+        try{
 
         for(int i = 0; i < lineArrayList.size(); i++){
 
@@ -48,6 +49,8 @@ class Screen extends JPanel {
 
             g2.draw(new Line2D.Float(x,this.getHeight(), x, this.getHeight() - lineArrayList.get(i)*yMultiplier));
             x = x + (int) lineWidth + lineSpace;
+        }} catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 }
